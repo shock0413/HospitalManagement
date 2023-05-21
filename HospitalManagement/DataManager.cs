@@ -17,6 +17,7 @@ namespace KDJ_HospitalManager
         public static List<Hospital_Ward> Hospital_Wards = new List<Hospital_Ward>();
         public static List<Hospital_Room> Hospital_Rooms = new List<Hospital_Room>();
         public static List<Medical_Record> Medical_Records = new List<Medical_Record>();
+        public static List<Hospitalization> Hospitalizations = new List<Hospitalization>();
 
         public static int patient_id = 1;
         public static int employee_id = 1;
@@ -24,6 +25,7 @@ namespace KDJ_HospitalManager
         public static int ward_id = 1;
         public static int room_id = 1;
         public static int record_id = 1;
+        public static int hospitalization_id = 1;
 
         static DataManager()
         {
@@ -45,9 +47,7 @@ namespace KDJ_HospitalManager
                                 Date_Of_Birth = DateTime.Parse(patient.Element("date_of_birth").Value),
                                 Zip = patient.Element("zip").Value,
                                 Addr = patient.Element("addr").Value,
-                                Contact = patient.Element("contact").Value,
-                                Hospital_Ward_ID = patient.Element("hospital_ward_id").Value,
-                                Hospital_Room_ID = patient.Element("hospital_room_id").Value
+                                Contact = patient.Element("contact").Value
                             }).ToList<Patient>();
 
                 string employeesInput = File.ReadAllText(@"./employees.xml");
@@ -62,9 +62,10 @@ namespace KDJ_HospitalManager
                                  Join_Date = DateTime.Parse(employee.Element("join_date").Value).Date,
                                  Zip = employee.Element("zip").Value,
                                  Addr = employee.Element("addr").Value,
-                                 Department_ID = employee.Element("department").Value,
+                                 Department_ID = employee.Element("department_id").Value,
                                  Position = employee.Element("position").Value,
-                                 Email = employee.Element("email").Value
+                                 Email = employee.Element("email").Value,
+                                 Contact = employee.Element("contact").Value
                              }).ToList<Employee>();
 
                 string departmentsInput = File.ReadAllText(@"./departments.xml");
@@ -106,8 +107,22 @@ namespace KDJ_HospitalManager
                                        ID = record.Element("id").Value,
                                        Patient_ID = record.Element("patient_id").Value,
                                        Employee_ID = record.Element("employee_id").Value,
-                                       ReceiptAt = DateTime.Parse(record.Element("receiptAt").Value)
+                                       ReceiptAt = DateTime.Parse(record.Element("receiptAt").Value),
+                                       Medical_Room = record.Element("medical_room").Value
                                    }).ToList<Medical_Record>();
+
+                string hospitalizationsInput = File.ReadAllText(@"./hospitalization.xml");
+                XElement hospitalizationsXElement = XElement.Parse(hospitalizationsInput);
+                Hospitalizations = (from hospitalization in hospitalizationsXElement.Descendants("hospitalization")
+                                    select new Hospitalization()
+                                    {
+                                        ID = hospitalization.Element("id").Value,
+                                        Hospital_Ward_ID = hospitalization.Element("hospital_ward_id").Value,
+                                        Hospital_Room_ID = hospitalization.Element("hospital_room_id").Value,
+                                        Patient_ID = hospitalization.Element("patient_id").Value,
+                                        Join_Date = DateTime.Parse(hospitalization.Element("join_date").Value),
+                                        Exit_Date = DateTime.Parse(hospitalization.Element("exit_date").Value)
+                                    }).ToList<Hospitalization>();
             }
             catch (FileNotFoundException e)
             {
@@ -126,90 +141,106 @@ namespace KDJ_HospitalManager
                 room_id = int.Parse(Hospital_Rooms[Hospital_Rooms.Count() - 1].ID) + 1;
             if (Medical_Records.Count() != 0)
                 record_id = int.Parse(Medical_Records[Medical_Records.Count() - 1].ID) + 1;
+            if (Hospitalizations.Count() != 0)
+                hospitalization_id = int.Parse(Hospitalizations[Hospitalizations.Count() - 1].ID) + 1;
         }
 
         public static void Save()
         {
-            string patientsOutput = "<patients>\n";
+            string patientsOutput = "<patients>\r\n";
             foreach (var patient in Patients)
             {
-                patientsOutput += " <patient>\n";
-                patientsOutput += "     <id>" + patient.ID + "</id>\n";
-                patientsOutput += "     <name>" + patient.Name + "</name>\n";
+                patientsOutput += " <patient>\r\n";
+                patientsOutput += "     <id>" + patient.ID + "</id>\r\n";
+                patientsOutput += "     <name>" + patient.Name + "</name>\r\n";
                 patientsOutput += "     <sex>" + patient.Sex + "</sex>\n";
-                patientsOutput += "     <date_of_birth>" + patient.Date_Of_Birth.Date.ToString() + "</date_of_birth>\n";
-                patientsOutput += "     <zip>" + patient.Zip + "</zip>\n";
-                patientsOutput += "     <addr>" + patient.Addr + "</addr>\n";
-                patientsOutput += "     <contact>" + patient.Contact + "</contact>\n";
-                patientsOutput += "     <hospital_ward_id>" + patient.Hospital_Ward_ID + "</hospital_ward_id>\n";
-                patientsOutput += "     <hospital_room_id>" + patient.Hospital_Room_ID + "</hospital_room_id>\n";
-                patientsOutput += " </patient>\n";
+                patientsOutput += "     <date_of_birth>" + patient.Date_Of_Birth.Date.ToString() + "</date_of_birth>\r\n";
+                patientsOutput += "     <zip>" + patient.Zip + "</zip>\r\n";
+                patientsOutput += "     <addr>" + patient.Addr + "</addr>\r\n";
+                patientsOutput += "     <contact>" + patient.Contact + "</contact>\r\n";
+                patientsOutput += " </patient>\r\n";
             }
             patientsOutput += "</patients>";
 
-            string employeesOutput = "<employees>\n";
+            string employeesOutput = "<employees>\r\n";
             foreach (var employee in Employees)
             {
-                employeesOutput += " <employee>\n";
-                employeesOutput += "     <id>" + employee.ID + "</id>\n";
-                employeesOutput += "     <name>" + employee.Name + "</name>\n";
-                employeesOutput += "     <sex>" + employee.Sex + "</sex>\n";
-                employeesOutput += "     <date_of_birth>" + employee.Date_Of_Birth.Date + "</date_of_birth>\n";
-                employeesOutput += "     <join_date>" + employee.Join_Date + "</join_date>\n";
-                employeesOutput += "     <zip>" + employee.Zip + "</zip>\n";
-                employeesOutput += "     <addr>" + employee.Addr + "</addr>\n";
-                employeesOutput += "     <department>" + employee.Department_ID + "</department>\n";
-                employeesOutput += "     <position>" + employee.Position + "</position>\n";
-                employeesOutput += "     <email>" + employee.Email + "</email>\n";
-                employeesOutput += " </employee>\n";
+                employeesOutput += " <employee>\r\n";
+                employeesOutput += "     <id>" + employee.ID + "</id>\r\n";
+                employeesOutput += "     <name>" + employee.Name + "</name>\r\n";
+                employeesOutput += "     <sex>" + employee.Sex + "</sex>\r\n";
+                employeesOutput += "     <date_of_birth>" + employee.Date_Of_Birth.Date + "</date_of_birth>\r\n";
+                employeesOutput += "     <join_date>" + employee.Join_Date + "</join_date>\r\n";
+                employeesOutput += "     <zip>" + employee.Zip + "</zip>\r\n";
+                employeesOutput += "     <addr>" + employee.Addr + "</addr>\r\n";
+                employeesOutput += "     <department_id>" + employee.Department_ID + "</department_id>\r\n";
+                employeesOutput += "     <position>" + employee.Position + "</position>\r\n";
+                employeesOutput += "     <email>" + employee.Email + "</email>\r\n";
+                employeesOutput += "     <contact>" + employee.Contact + "</contact>\r\n";
+                employeesOutput += " </employee>\r\n";
             }
             employeesOutput += "</employees>";
 
-            string departmentsOutput = "<departments>\n";
+            string departmentsOutput = "<departments>\r\n";
             foreach (var department in Departments)
             {
-                departmentsOutput += "  <department>\n";
-                departmentsOutput += "      <id>" + department.ID + "</id>\n";
-                departmentsOutput += "      <name>" + department.Name + "</name>\n";
-                departmentsOutput += "      <is_medical_department>" + department.Is_Medical_Department + "</is_medical_department>\n";
-                departmentsOutput += "  </department>\n";
+                departmentsOutput += "  <department>\r\n";
+                departmentsOutput += "      <id>" + department.ID + "</id>\r\n";
+                departmentsOutput += "      <name>" + department.Name + "</name>\r\n";
+                departmentsOutput += "      <is_medical_department>" + department.Is_Medical_Department + "</is_medical_department>\r\n";
+                departmentsOutput += "  </department>\r\n";
             }
             departmentsOutput += "</departments>";
 
-            string hospital_wardsOutput = "<hospital_wards>\n";
+            string hospital_wardsOutput = "<hospital_wards>\r\n";
             foreach (var ward in Hospital_Wards)
             {
-                hospital_wardsOutput += "   <hospital_ward>\n";
-                hospital_wardsOutput += "       <id>" + ward.ID + "</id>\n";
-                hospital_wardsOutput += "       <name>" + ward.Name + "</name>\n";
-                hospital_wardsOutput += "       <count>" + ward.Count + "</count>\n";
-                hospital_wardsOutput += "   </hospital_ward>\n";
+                hospital_wardsOutput += "   <hospital_ward>\r\n";
+                hospital_wardsOutput += "       <id>" + ward.ID + "</id>\r\n";
+                hospital_wardsOutput += "       <name>" + ward.Name + "</name>\r\n";
+                hospital_wardsOutput += "       <count>" + ward.Count + "</count>\r\n";
+                hospital_wardsOutput += "   </hospital_ward>\r\n";
             }
             hospital_wardsOutput += "</hospital_wards>";
 
-            string hospital_roomsOutput = "<hospital_rooms>\n";
+            string hospital_roomsOutput = "<hospital_rooms>\r\n";
             foreach (var room in Hospital_Rooms)
             {
-                hospital_roomsOutput += "   <hospital_room>\n";
-                hospital_roomsOutput += "       <id>" + room.ID + "</id>\n";
-                hospital_roomsOutput += "       <number>" + room.Number + "</number>\n";
-                hospital_roomsOutput += "       <hospital_ward_id>" + room.Hospital_Ward_ID + "</hospital_ward_id>\n";
-                hospital_roomsOutput += "       <count>" + room.Count + "</count>\n";
-                hospital_roomsOutput += "   </hospital_room>\n";
+                hospital_roomsOutput += "   <hospital_room>\r\n";
+                hospital_roomsOutput += "       <id>" + room.ID + "</id>\r\n";
+                hospital_roomsOutput += "       <number>" + room.Number + "</number>\r\n";
+                hospital_roomsOutput += "       <hospital_ward_id>" + room.Hospital_Ward_ID + "</hospital_ward_id>\r\n";
+                hospital_roomsOutput += "       <count>" + room.Count + "</count>\r\n";
+                hospital_roomsOutput += "   </hospital_room>\r\n";
             }
             hospital_roomsOutput += "</hospital_rooms>";
 
-            string medical_recordsOutput = "<medical_records>\n";
+            string medical_recordsOutput = "<medical_records>\r\n";
             foreach (var record in Medical_Records)
             {
-                medical_recordsOutput += "  <medical_record>\n";
-                medical_recordsOutput += "      <id>" + record.ID + "</id>\n";
-                medical_recordsOutput += "      <patient_id>" + record.Patient_ID + "</patient_id>\n";
-                medical_recordsOutput += "      <employee_id>" + record.Employee_ID + "</employee_id>\n";
-                medical_recordsOutput += "      <receiptAt>" + record.ReceiptAt + "</receiptAt>\n";
-                medical_recordsOutput += "  </medical_record>\n";
+                medical_recordsOutput += "  <medical_record>\r\n";
+                medical_recordsOutput += "      <id>" + record.ID + "</id>\r\n";
+                medical_recordsOutput += "      <patient_id>" + record.Patient_ID + "</patient_id>\r\n";
+                medical_recordsOutput += "      <employee_id>" + record.Employee_ID + "</employee_id>\r\n";
+                medical_recordsOutput += "      <receiptAt>" + record.ReceiptAt + "</receiptAt>\r\n";
+                medical_recordsOutput += "      <medical_room>" + record.Medical_Room + "</medical_room>\r\n";
+                medical_recordsOutput += "  </medical_record>\r\n";
             }
             medical_recordsOutput += "</medical_records>";
+
+            string hospitalizationOutput = "<hospitalizations>\r\n";
+            foreach (var hospitalization in Hospitalizations)
+            {
+                hospitalizationOutput += "  <hospitalization>\r\n";
+                hospitalizationOutput += "      <id>" + hospitalization.ID + "</id>\r\n";
+                hospitalizationOutput += "      <hospital_ward_id>" + hospitalization.Hospital_Ward_ID + "</hospital_ward_id>\r\n";
+                hospitalizationOutput += "      <hospital_room_id>" + hospitalization.Hospital_Room_ID + "</hospital_room_id>\r\n";
+                hospitalizationOutput += "      <patient_id>" + hospitalization.Patient_ID + "</patient_id>\r\n";
+                hospitalizationOutput += "      <join_date>" + hospitalization.Join_Date.Date.ToString() + "</join_date>\r\n";
+                hospitalizationOutput += "      <exit_date>" + hospitalization.Exit_Date.Date.ToString() + "</exit_date>\r\n";
+                hospitalizationOutput += "  </hospitalization>\r\n";
+            }
+            hospitalizationOutput += "</hospitalizations>";
 
             try
             {
@@ -219,6 +250,7 @@ namespace KDJ_HospitalManager
                 File.WriteAllText(@"./hospital_wards.xml", hospital_wardsOutput);
                 File.WriteAllText(@"./hospital_rooms.xml", hospital_roomsOutput);
                 File.WriteAllText(@"./medical_records.xml", medical_recordsOutput);
+                File.WriteAllText(@"./hospitalization.xml", hospitalizationOutput);
             }
             catch (Exception e)
             {

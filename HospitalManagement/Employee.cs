@@ -15,7 +15,7 @@ namespace KDJ_HospitalManager
         public string Sex { get; set; }                 // 성별
         public string Zip { get; set; }                 // 우편번호
         public string Addr { get; set; }                // 주소
-        public string Department_ID { get; set; }                // 부서번호
+        public string Department_ID { get; set; }       // 부서번호
         public string Position { get; set; }            // 직급
         public string Email { get; set; }               // 이메일
         public string Contact { get; set; }             // 연락처

@@ -18,7 +18,7 @@ namespace KDJ_HospitalManager
 
             label3.Text = DataManager.Patients.Count().ToString() + "명";
             label4.Text = DataManager.Employees.Count().ToString() + "명";
-            label6.Text = DataManager.Patients.Where((x) => x.Hospital_Room_ID != null && x.Hospital_Ward_ID != null).Count().ToString() + "명";
+            label6.Text = DataManager.Hospitalizations.Where((x) => x.Exit_Date >= DateTime.Now).Count() + "명";
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = DataManager.Patients;
             dataGridView1.CurrentCellChanged += DataGridView1_CurrentCellChanged;
@@ -32,6 +32,8 @@ namespace KDJ_HospitalManager
 
             comboBox1.TextChanged += ComboBox1_TextChanged;
             button1.Click += Button1_Click;
+            comboBox3.Items.Add("제1진료실");
+            comboBox3.Items.Add("제2진료실");
         }
 
         private void 환자등록ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -46,7 +48,6 @@ namespace KDJ_HospitalManager
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = DataManager.Patients;
             label3.Text = DataManager.Patients.Count().ToString() + "명";
-            label6.Text = DataManager.Patients.Where((x) => x.Hospital_Room_ID != null && x.Hospital_Ward_ID != null).Count().ToString() + "명";
         }
 
         private void 사원등록ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -106,6 +107,7 @@ namespace KDJ_HospitalManager
 
         private void ComboBox1_TextChanged(object sender, EventArgs e)
         {
+            comboBox2.Text = "";
             comboBox2.Items.Clear();
             foreach (var department in DataManager.Departments)
                 if (department.Name.Equals(comboBox1.Text))
@@ -130,12 +132,52 @@ namespace KDJ_HospitalManager
                                 doctor = employee;
             medical_Record.Employee_ID = doctor.ID;
             medical_Record.ReceiptAt = DateTime.Now;
+            medical_Record.Medical_Room = comboBox3.Text;
             DataManager.Medical_Records.Add(medical_Record);
 
             DataManager.Save();
             DataManager.Load();
             dataGridView2.DataSource = null;
             dataGridView2.DataSource = DataManager.Medical_Records;
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            Form6 form6 = new Form6();
+            form6.ShowDialog();
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            Form7 form7 = new Form7();
+            form7.ShowDialog();
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            Form3 form3 = new Form3();
+            form3.FormClosed += Form3_FormClosed;
+            form3.ShowDialog();
+        }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            Form4 form4 = new Form4();
+            form4.FormClosed += Form4_FormClosed;
+            form4.ShowDialog();
+        }
+
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+            Form5 form5 = new Form5();
+            form5.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = null;
+
+            dataGridView1.DataSource = DataManager.Patients.Where((x) => x.Name == textBox1.Text).ToList<Patient>();
         }
     }
 }

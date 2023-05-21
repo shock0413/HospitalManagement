@@ -41,6 +41,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -49,16 +50,15 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.hospitalRoomBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.hospitalWardBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.countDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.iDDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hospitalWardIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.countDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hospitalRoomBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.countDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hospitalWardBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -221,6 +221,13 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "병실 추가/수정";
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(283, 19);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 21);
+            this.textBox2.TabIndex = 12;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -290,62 +297,55 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "병동";
             // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(283, 19);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 21);
-            this.textBox2.TabIndex = 12;
-            // 
-            // iDDataGridViewTextBoxColumn1
-            // 
-            this.iDDataGridViewTextBoxColumn1.DataPropertyName = "ID";
-            this.iDDataGridViewTextBoxColumn1.HeaderText = "ID";
-            this.iDDataGridViewTextBoxColumn1.Name = "iDDataGridViewTextBoxColumn1";
-            // 
-            // numberDataGridViewTextBoxColumn
-            // 
-            this.numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
-            this.numberDataGridViewTextBoxColumn.HeaderText = "Number";
-            this.numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
-            // 
-            // hospitalWardIDDataGridViewTextBoxColumn
-            // 
-            this.hospitalWardIDDataGridViewTextBoxColumn.DataPropertyName = "Hospital_Ward_ID";
-            this.hospitalWardIDDataGridViewTextBoxColumn.HeaderText = "Hospital_Ward_ID";
-            this.hospitalWardIDDataGridViewTextBoxColumn.Name = "hospitalWardIDDataGridViewTextBoxColumn";
-            // 
-            // countDataGridViewTextBoxColumn1
-            // 
-            this.countDataGridViewTextBoxColumn1.DataPropertyName = "Count";
-            this.countDataGridViewTextBoxColumn1.HeaderText = "Count";
-            this.countDataGridViewTextBoxColumn1.Name = "countDataGridViewTextBoxColumn1";
-            // 
             // hospitalRoomBindingSource
             // 
             this.hospitalRoomBindingSource.DataSource = typeof(KDJ_HospitalManager.Hospital_Room);
             // 
+            // hospitalWardBindingSource
+            // 
+            this.hospitalWardBindingSource.DataSource = typeof(KDJ_HospitalManager.Hospital_Ward);
+            // 
             // iDDataGridViewTextBoxColumn
             // 
             this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.iDDataGridViewTextBoxColumn.HeaderText = "병동번호";
             this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
             // 
             // nameDataGridViewTextBoxColumn
             // 
             this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "병동명";
             this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
             // 
             // countDataGridViewTextBoxColumn
             // 
             this.countDataGridViewTextBoxColumn.DataPropertyName = "Count";
-            this.countDataGridViewTextBoxColumn.HeaderText = "Count";
+            this.countDataGridViewTextBoxColumn.HeaderText = "병실 개수";
             this.countDataGridViewTextBoxColumn.Name = "countDataGridViewTextBoxColumn";
             // 
-            // hospitalWardBindingSource
+            // iDDataGridViewTextBoxColumn1
             // 
-            this.hospitalWardBindingSource.DataSource = typeof(KDJ_HospitalManager.Hospital_Ward);
+            this.iDDataGridViewTextBoxColumn1.DataPropertyName = "ID";
+            this.iDDataGridViewTextBoxColumn1.HeaderText = "병실번호";
+            this.iDDataGridViewTextBoxColumn1.Name = "iDDataGridViewTextBoxColumn1";
+            // 
+            // numberDataGridViewTextBoxColumn
+            // 
+            this.numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
+            this.numberDataGridViewTextBoxColumn.HeaderText = "병실호실";
+            this.numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
+            // 
+            // hospitalWardIDDataGridViewTextBoxColumn
+            // 
+            this.hospitalWardIDDataGridViewTextBoxColumn.DataPropertyName = "Hospital_Ward_ID";
+            this.hospitalWardIDDataGridViewTextBoxColumn.HeaderText = "병동번호";
+            this.hospitalWardIDDataGridViewTextBoxColumn.Name = "hospitalWardIDDataGridViewTextBoxColumn";
+            // 
+            // countDataGridViewTextBoxColumn1
+            // 
+            this.countDataGridViewTextBoxColumn1.DataPropertyName = "Count";
+            this.countDataGridViewTextBoxColumn1.HeaderText = "인원 수";
+            this.countDataGridViewTextBoxColumn1.Name = "countDataGridViewTextBoxColumn1";
             // 
             // Form5
             // 
@@ -354,7 +354,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Form5";
-            this.Text = "병동 관리";
+            this.Text = "병동관리";
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
@@ -392,6 +392,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn countDataGridViewTextBoxColumn;
@@ -399,7 +401,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn hospitalWardIDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn countDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
     }
 }

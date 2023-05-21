@@ -15,7 +15,5 @@ namespace KDJ_HospitalManager
         public string Zip { get; set; }                 // 우편번호
         public string Addr { get; set; }                // 주소
         public string Contact { get; set; }             // 연락처
-        public string Hospital_Ward_ID { get; set; }    // 병동 번호
-        public string Hospital_Room_ID { get; set; }    // 병실 번호
     }
 }

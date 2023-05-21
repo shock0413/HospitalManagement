@@ -22,10 +22,6 @@ namespace KDJ_HospitalManager
 
             DataGridViewRefresh();
             dataGridView1.CurrentCellChanged += DataGridView1_CurrentCellChanged;
-
-            foreach (var ward in DataManager.Hospital_Wards)
-                comboBox1.Items.Add(ward.Name);
-            comboBox1.TextChanged += ComboBox1_TextChanged;
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -41,12 +37,6 @@ namespace KDJ_HospitalManager
             patient.Zip = textBox2.Text;
             patient.Addr = textBox3.Text;
             patient.Contact = textBox4.Text;
-            foreach (var ward in DataManager.Hospital_Wards)
-                if (ward.Name.Equals(comboBox1.Text))
-                    patient.Hospital_Ward_ID = ward.ID;
-            foreach (var room in DataManager.Hospital_Rooms)
-                if (room.Number.Equals(comboBox2.Text))
-                    patient.Hospital_Room_ID = room.ID;
             DataManager.Patients.Add(patient);
             DataGridViewRefresh();
         }
@@ -63,24 +53,6 @@ namespace KDJ_HospitalManager
             patient.Zip = textBox2.Text;
             patient.Addr = textBox3.Text;
             patient.Contact = textBox4.Text;
-
-            foreach (var ward in DataManager.Hospital_Wards)
-            {
-                if (ward.Name.Equals(comboBox1.Text))
-                {
-                    patient.Hospital_Ward_ID = ward.ID;
-                    break;
-                }
-            }
-
-            foreach (var room in DataManager.Hospital_Rooms)
-            {
-                if (room.Number.Equals(comboBox2.Text))
-                {
-                    patient.Hospital_Room_ID = room.ID;
-                    break;
-                }
-            }
             DataGridViewRefresh();
         }
 
@@ -89,28 +61,6 @@ namespace KDJ_HospitalManager
             Patient patient = dataGridView1.CurrentRow.DataBoundItem as Patient;
             DataManager.Patients.Remove(patient);
             DataGridViewRefresh();
-        }
-
-        private void ComboBox1_TextChanged(object sender, EventArgs e)
-        {
-            comboBox2.Text = "";
-            comboBox2.Items.Clear();
-
-            foreach (var ward in DataManager.Hospital_Wards)
-            {
-                if (ward.Name.Equals(comboBox1.Text))
-                {
-                    string id = ward.ID;
-                    foreach (var room in DataManager.Hospital_Rooms)
-                    {
-                        if (id.Equals(room.Hospital_Ward_ID))
-                        {
-                            comboBox2.Items.Add(room.Number);
-                        }
-                    }
-                    break;
-                }
-            }
         }
 
         private void DataGridViewRefresh()
@@ -134,26 +84,12 @@ namespace KDJ_HospitalManager
             textBox2.Text = patient.Zip;
             textBox3.Text = patient.Addr;
             textBox4.Text = patient.Contact;
+        }
 
-            foreach (var ward in DataManager.Hospital_Wards)
-            {
-                string id = patient.Hospital_Ward_ID;
-                if (ward.ID.Equals(id))
-                {
-                    comboBox1.Text = ward.Name;
-                    break;
-                }
-            }
-
-            foreach (var room in DataManager.Hospital_Rooms)
-            {
-                string id = patient.Hospital_Room_ID;
-                if (room.ID.Equals(id))
-                {
-                    comboBox2.Text = room.Number;
-                    break;
-                }
-            }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = null;
+                dataGridView1.DataSource = DataManager.Patients.Where((x) => x.Name == textBox1.Text).ToList<Patient>();
         }
     }
 }

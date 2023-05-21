@@ -121,6 +121,14 @@ namespace KDJ_HospitalManager
             textBox3.Text = employee.Addr;
             textBox4.Text = employee.Contact;
             textBox5.Text = employee.Email;
+            comboBox1.Text = DataManager.Departments.Single((x) => x.ID == employee.Department_ID).Name;
+            comboBox2.Text = employee.Position;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = DataManager.Employees.Where((x) => x.Name == textBox1.Text).ToList<Employee>();
         }
     }
 }

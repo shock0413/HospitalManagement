@@ -95,6 +95,7 @@ namespace KDJ_HospitalManager
             ward.Name = textBox1.Text;
             ward.Count = DataManager.Hospital_Rooms.Where((x) => x.Hospital_Ward_ID == ward.ID).Count().ToString();
             DataManager.Hospital_Wards.Add(ward);
+            comboBox1.Items.Add(ward.Name);
 
             WardDataGridViewRefresh();
         }
